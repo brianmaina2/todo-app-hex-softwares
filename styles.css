@@ -52,8 +52,8 @@ body {
     padding: 10px;
     margin-bottom: 8px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     border-radius: 5px;
   }
   
