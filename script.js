@@ -12,14 +12,22 @@ window.onload = () => {
     if (text === "") return;
   
     const li = document.createElement("li");
-    if (isCompleted) li.classList.add("completed");
+  
+    // Checkbox for marking complete
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = isCompleted;
+    checkbox.onchange = () => {
+      if (checkbox.checked) {
+        li.classList.add("completed");
+      } else {
+        li.classList.remove("completed");
+      }
+      saveTasks();
+    };
   
     const span = document.createElement("span");
     span.textContent = text;
-    span.onclick = () => {
-      li.classList.toggle("completed");
-      saveTasks();
-    };
   
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "X";
@@ -29,10 +37,13 @@ window.onload = () => {
       saveTasks();
     };
   
+    li.appendChild(checkbox);
     li.appendChild(span);
     li.appendChild(deleteBtn);
-    taskList.appendChild(li);
   
+    if (isCompleted) li.classList.add("completed");
+  
+    taskList.appendChild(li);
     saveTasks();
     taskInput.value = "";
   }
@@ -43,7 +54,7 @@ window.onload = () => {
     document.querySelectorAll("#taskList li").forEach(li => {
       tasks.push({
         text: li.querySelector("span").textContent,
-        completed: li.classList.contains("completed")
+        completed: li.querySelector("input").checked
       });
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
